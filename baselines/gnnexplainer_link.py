@@ -109,7 +109,7 @@ if args.max_num_samples > 0:
     test_ids = test_ids[:args.max_num_samples]
 
 pred_edge_to_comp_g_edge_mask = {}
-for i in tqdm(test_ids):
+for i in tqdm(test_ids[:10]):
     # Get the k-hop subgraph
     src_nid, tgt_nid = test_src_nids[i].unsqueeze(0), test_tgt_nids[i].unsqueeze(0)
     with torch.no_grad():

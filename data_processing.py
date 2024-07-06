@@ -127,22 +127,33 @@ def load_dataset(dataset_dir, dataset_name, val_ratio, test_ratio):
         key=((source node type, source node id), (target node type, target node id))
         value=dict, {cannonical edge type: (source node ids, target node ids)}
         
-    pred_pair_to_path_labels : dict 
+    pred_pair_to_path_labels : dict
         key=((source node type, source node id), (target node type, target node id))
         value=list of lists, each list contains (cannonical edge type, source node ids, target node ids)
     '''
     graph_saving_path = f'{dataset_dir}/{dataset_name}'
     graph_list, _ = dgl.load_graphs(graph_saving_path)
+    
     pred_pair_to_edge_labels = torch.load(f'{graph_saving_path}_pred_pair_to_edge_labels')
     pred_pair_to_path_labels = torch.load(f'{graph_saving_path}_pred_pair_to_path_labels')
     g = graph_list[0]
+
     if 'synthetic' in dataset_name:
-        src_ntype, tgt_ntype = 'user', 'item'
+        src_ntype, tgt_ntype = 'user', 'item'       # user에게 item을 추천
     elif 'citation' in dataset_name:
-        src_ntype, tgt_ntype = 'author', 'paper'
+        src_ntype, tgt_ntype = 'author', 'paper'    # author에게 paper 추천
 
     pred_etype = 'likes'
     neg = 'src_tgt_neg'
     processed_g = process_data(g, val_ratio, test_ratio, src_ntype, tgt_ntype, pred_etype, neg)
+
+    # print(g)
+    # print('------')
+    # print(processed_g)
+    # print('------')
+    # print(pred_pair_to_edge_labels[(('author', 1), ('paper', 2217))])
+    # print('------')
+    # print(pred_pair_to_path_labels[(('author', 1), ('paper', 2217))])
+    # print('------')
     return g, processed_g, pred_pair_to_edge_labels, pred_pair_to_path_labels
 

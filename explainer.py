@@ -258,7 +258,7 @@ class PaGELink(nn.Module):
         return pruned_ghetero, etypes_to_pruned_ghetero_eid_masks
         
         
-    def path_loss(self, src_nid, tgt_nid, g, eweights, num_paths=5):
+    def path_loss(self, src_nid, tgt_nid, g, eweights, num_paths=5): # Lpath
         """Compute the path loss.
 
         Parameters

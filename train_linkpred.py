@@ -72,7 +72,7 @@ print_args(args)
 def compute_loss(pos_score, neg_score):
     scores = torch.cat([pos_score, neg_score])
     device = scores.device
-    labels = torch.cat([torch.ones(pos_score.shape[0]), torch.zeros(neg_score.shape[0])]).to(device)
+    labels = torch.cat([torch.ones(pos_score.shape[0]), torch.zeros(neg_score.shape[0])]).to(device) 
     return F.binary_cross_entropy_with_logits(scores, labels)
 
 def compute_auc(pos_score, neg_score):
